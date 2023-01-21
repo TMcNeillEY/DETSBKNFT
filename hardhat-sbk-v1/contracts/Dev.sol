@@ -1567,70 +1567,10 @@ contract Dev is ERC721Enumerable, ReentrancyGuard, Ownable {
      //  _price is the price of one DET SBK NFT
       uint256 public _price = 0.01 ether;
 
-    // _paused is used to pause the contract in case of an emergency
-      bool public _paused;
-
     // max number of DetSbkDevs
       uint256 public maxTokenIds = 20;
 
-     // boolean to keep track of whether presale started or not
-      bool public presaleStarted;
 
-      // timestamp for when presale would end
-      uint256 public presaleEnded;
-
-      modifier onlyWhenNotPaused {
-          require(!_paused, "Contract currently paused");
-          _;
-      }
-
-       /**
-      * @dev startPresale starts a presale for the whitelisted addresses
-       */
-      function startPresale() public onlyOwner {
-          presaleStarted = true;
-          // Set presaleEnded time as current timestamp + 5 minutes
-          // Solidity has cool syntax for timestamps (seconds, minutes, hours, days, years)
-          presaleEnded = block.timestamp + 5 minutes;
-      }
-
-      function presaleMint(uint256 tokenId) public payable onlyWhenNotPaused {
-          require(presaleStarted && block.timestamp < presaleEnded, "Presale is not running");
-        //   require(whitelist.whitelistedAddresses(msg.sender), "You are not whitelisted");
-          require(tokenId < maxTokenIds, "Exceeded maximum CDET SBK NFT supply");
-          require(msg.value >= _price, "Ether sent is not correct");
-          tokenId += 1;
-          //_safeMint is a safer version of the _mint function as it ensures that
-          // if the address being minted to is a contract, then it knows how to deal with ERC721 tokens
-          // If the address being minted to is not a contract, it works the same way as _mint
-          _safeMint(msg.sender, tokenId);
-      }
-
-      function mint(uint256 tokenId) public payable onlyWhenNotPaused {
-          require(presaleStarted && block.timestamp >=  presaleEnded, "Presale has not ended yet");
-          require(tokenId < maxTokenIds, "Exceed maximum DET SBK NFT supply");
-          require(msg.value >= _price, "Ether sent is not correct");
-          tokenId += 1;
-          _safeMint(msg.sender, tokenId);
-      }
-
-      /**
-      * @dev withdraw sends all the ether in the contract
-      * to the owner of the contract
-       */
-      function withdraw() public onlyOwner  {
-          address _owner = owner();
-          uint256 amount = address(this).balance;
-          (bool sent, ) =  _owner.call{value: amount}("");
-          require(sent, "Failed to send Ether");
-      }
-
-       // Function to receive Ether. msg.data must be empty
-      receive() external payable {}
-
-      // Fallback function is called when msg.data is not empty
-      fallback() external payable {}
-      
 
     function claim(uint256 tokenId) public nonReentrant {
         require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
