@@ -1532,7 +1532,7 @@ contract Dev is ERC721Enumerable, ReentrancyGuard, Ownable {
 
         //string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Person #', toString(tokenId), '", "description": "Developers  Join the movement that is community owned, building the future from the bottom up.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
 
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Person #',toString(tokenId), '", "description": "Demo person NFT collection for Web3 challenge.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '", "attributes": ', "[", '{"trait_type": "OS Skills", "value" : "', parts[1] , '"}', '{"trait_type": "Industry", "value" : "', parts[9] , '"}', "]"  ,'}'))));
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "DET SBK #',toString(tokenId), '", "description": "DET SBK is a collection of NFTs based on skills, background and knowledge gained.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '", "attributes": ', "[", '{"trait_type": "OS Skills", "value" : "', parts[1] , '"}', '{"trait_type": "Text Editor", "value" : "', parts[3] , '"}', '{"trait_type": "Degree", "value" : "', parts[5] , '"}', '{"trait_type": "Language", "value" : "', parts[7] , '"}', '{"trait_type": "Industry", "value" : "', parts[9] , '"}', '{"trait_type": "Location", "value" : "', parts[11] , '"}', '{"trait_type": "Certifications", "value" : "', parts[15] , '"}', '{"trait_type": "Front-End", "value" : "', parts[17] , '"}', "]"  ,'}'))));
 
         // string memory json = Base64.encode(
         //                 bytes(
@@ -1573,12 +1573,12 @@ contract Dev is ERC721Enumerable, ReentrancyGuard, Ownable {
 
 
     function claim(uint256 tokenId) public nonReentrant {
-        require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
+        require(tokenId > 0 && tokenId < 20, "Token ID invalid");
         _safeMint(_msgSender(), tokenId);
     }
     
     function ownerClaim(uint256 tokenId) public nonReentrant onlyOwner {
-        require(tokenId > 7777 && tokenId < 8001, "Token ID invalid");
+        require(tokenId > 19 && tokenId < 22, "Token ID invalid");
         _safeMint(owner(), tokenId);
     }
     
